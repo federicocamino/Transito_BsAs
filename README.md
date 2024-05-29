@@ -5,6 +5,8 @@ Los datos se obtuvieron del [dataset](https://docs.google.com/spreadsheets/d/1nq
 
 Se realizó un [análisis exploratorio y limpieza de los datos](/ETL-EDA.ipynb), subiendose los datos a un repositorio de MySQL, y luego analizando los mismos en un [tablero con datos dinámicos](/Analisis%20Power%20BI.pbix), para que los responsables de tránsito puedan buscar ubicaciones en dónde gestionar.
 
+Por otro lado, dado que la transparencia de un gobierno es fundamental, se generó una [app online](https://transito-bsas.onrender.com) para que los ciudadanos puedan obtener información acerca de los accidentes fatales en su comuna.
+
 ## Calidad y limpieza de los datos
 
 Los datos obtenidos eran de buena calidad. En muy pocos casos se obtenían datos nulos, y no había casos repetidos.
