@@ -5,39 +5,26 @@ import matplotlib.pyplot as plt
 df_homicidios=pd.read_csv('Datos_procesados/df_homicidios.csv')
 
 
-# funcion que crea el grafico de barras y lo muestra
-def bar_chart_by_year():
-    fig, ax = plt.subplots()
-    df_yearly_victims = df_homicidios.groupby('año')['N_VICTIMAS'].sum()
-    df_yearly_victims.plot(kind='bar', ax=ax)
-    plt.xlabel('Año')
-    plt.ylabel('Número de Víctimas')
-    st.pyplot(fig)
+#barra lateral para seleccionar la comuna
+comuna_seleccionada = st.sidebar.selectbox('Seleccionar Comuna', df_homicidios['COMUNA'].unique())
 
-# funcion que crea el grafico de torta y lo muestra
-def pie_chart(column):
-    fig, ax = plt.subplots()
-    df_column_count = df_homicidios[column].value_counts()
-    df_column_count.plot(kind='pie', autopct='%1.1f%%', startangle=90, ax=ax)
-    plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-    plt.xlabel(column)
-    st.pyplot(fig)
+# filtro de datos
+df_comuna = df_homicidios[df_homicidios['COMUNA'] == comuna_seleccionada]
 
-# Botones para seleccionar la COMUNA
-selected_comuna = st.sidebar.selectbox('Seleccionar COMUNA', df_homicidios['COMUNA'].unique())
+# grafico de barras
+fig1, ax1 = plt.subplots()
+df_comuna.groupby('año')['N_VICTIMAS'].sum().plot(kind='bar', ax=ax1)
+ax1.set_title('Suma de N_VICTIMAS por Año')
+ax1.set_xlabel('Año')
+ax1.set_ylabel('Número de Víctimas')
+st.pyplot(fig1)
 
-# filtro lo que se seleccione en el boton
-df_selected_comuna = df_homicidios[df_homicidios['COMUNA'] == selected_comuna]
-
-# Mostrar gráficos
-st.header('Suma de N_VICTIMAS por año')
-bar_chart_by_year()
-
-st.header('Distribución de TIPO_DE_CALLE')
-pie_chart('TIPO_DE_CALLE')
-
-st.header('Distribución de VICTIMA')
-pie_chart('VICTIMA')
-
-st.header('Distribución de ACUSADO')
-pie_chart('ACUSADO')
+# Graficos de torta
+fig2, ax2 = plt.subplots(1, 3, figsize=(15, 5))
+df_comuna['TIPO_DE_CALLE'].value_counts().plot(kind='pie', ax=ax2[0], autopct='%1.1f%%')
+ax2[0].set_title('Tipo de Calle')
+df_comuna['VICTIMA'].value_counts().plot(kind='pie', ax=ax2[1], autopct='%1.1f%%')
+ax2[1].set_title('Víctima')
+df_comuna['ACUSADO'].value_counts().plot(kind='pie', ax=ax2[2], autopct='%1.1f%%')
+ax2[2].set_title('Acusado')
+st.pyplot(fig2)
