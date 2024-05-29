@@ -10,10 +10,11 @@ comuna_seleccionada = st.sidebar.selectbox('Seleccionar Comuna', df_homicidios['
 #filtro con los datos de la barra
 df_comuna = df_homicidios[df_homicidios['COMUNA'] == comuna_seleccionada]
 
+st.write(f"Víctimas por Año en la Comuna {comuna_seleccionada}")
+
 # grafico de barras
 fig1, ax1 = plt.subplots()
 df_comuna.groupby('año')['N_VICTIMAS'].sum().plot(kind='bar', ax=ax1)
-ax1.set_title('Suma de N_VICTIMAS por Año')
 ax1.set_xlabel('Año')
 ax1.set_ylabel('Número de Víctimas')
 st.pyplot(fig1)
